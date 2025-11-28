@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ profile.name }} · Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="hero">
+      <p class="eyebrow">Portfolio</p>
+      <h1>{{ profile.name }}</h1>
+      <p class="tagline">{{ profile.tagline }}</p>
+      <p class="location">{{ profile.location }}</p>
+      <div class="cta-row">
+        {% if profile.contact_telegram %}
+        <a class="btn primary" href="{{ profile.contact_telegram }}" target="_blank" rel="noreferrer">
+          Say hello
+        </a>
+        {% else %}
+        <a class="btn primary" href="mailto:{{ profile.contact_email }}">Say hello</a>
+        {% endif %}
+        <a class="btn ghost" href="{{ profile.contact_social }}" target="_blank" rel="noreferrer">
+          Connect ↗
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section id="about" class="card about">
+        <div class="section-heading">
+          <h2>About</h2>
+          <p>Reliable teammate building pragmatic trading & data software</p>
+        </div>
+        <div class="about-grid">
+          <p>{{ profile.summary }}</p>
+          <div class="about-callouts">
+            <h3>What teammates notice</h3>
+            <ul>
+              <li>Motivated to learn quickly and share context back with the team.</li>
+              <li>Hands-on with MSSQL, Redis, RabbitMQ, and SignalR for real-time data.</li>
+              <li>Frontend fluency when it matters: clean markup, JavaScript, and jQuery.</li>
+              <li>Current motivation: pairing trading APIs with Flutter (Dart) visuals.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="card">
+        <div class="section-heading">
+          <h2>Experience</h2>
+          <p>Recent roles in capital markets and data-driven platforms</p>
+        </div>
+        <div class="timeline">
+          {% for role in experience %}
+          <article>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="meta">
+                <span class="role">{{ role.role }}</span>
+                <span class="company">{{ role.company }}</span>
+                <span class="dates">{{ role.dates }}</span>
+                <span class="location">{{ role.location }}</span>
+              </div>
+              <ul>
+                {% for highlight in role.highlights %}
+                <li>{{ highlight }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="projects" class="card">
+        <div class="section-heading">
+          <h2>Selected work</h2>
+          <p>Product slices that mix .NET, Python, and thoughtful frontend polish</p>
+        </div>
+        <div class="project-grid">
+          {% for project in projects %}
+          <article>
+            <p class="eyebrow">{{ project.stack }}</p>
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.summary }}</p>
+            <p class="impact">{{ project.impact }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="skills" class="card">
+        <div class="section-heading">
+          <h2>Focus areas</h2>
+          <p>Systems thinking plus pragmatic delivery</p>
+        </div>
+        <ul class="pill-list">
+          {% for skill in skills %}
+          <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section id="education" class="card">
+        <div class="section-heading">
+          <h2>Education</h2>
+          <p>Grounded in computer science fundamentals</p>
+        </div>
+        {% for school in education %}
+        <article class="education-card">
+          <h3>{{ school.degree }}</h3>
+          <p class="school">{{ school.school }}</p>
+          <p class="dates">{{ school.dates }}</p>
+          <p>{{ school.notes }}</p>
+        </article>
+        {% endfor %}
+      </section>
+
+      <section id="languages" class="card dual">
+        <div>
+          <div class="section-heading">
+            <h2>Languages</h2>
+            <p>Collaborating across distributed teams</p>
+          </div>
+          <ul class="pill-list">
+            {% for language in languages %}
+            <li>{{ language }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="learning">
+          <div class="section-heading">
+            <h2>Currently exploring</h2>
+            <p>Keeping skills sharp and versatile</p>
+          </div>
+          <p class="note">I’m focused on Flutter (Dart) frontends that bring trading context to life.</p>
+          <ul class="pill-list soft">
+            {% for topic in learning %}
+            <li>{{ topic }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Let’s build thoughtful tools together.</p>
+      <a href="mailto:{{ profile.contact_email }}">{{ profile.contact_email }}</a>
+      <p>
+        <a href="{{ profile.contact_social }}" target="_blank" rel="noreferrer">LinkedIn</a>
+        &nbsp;•&nbsp;
+        {% if profile.contact_telegram %}
+        <a href="{{ profile.contact_telegram }}" target="_blank" rel="noreferrer">@Sp0cee on Telegram</a>
+        {% endif %}
+      </p>
+      <p>&copy; {{ current_year }} {{ profile.name }}</p>
+    </footer>
+  </body>
+</html>
+
