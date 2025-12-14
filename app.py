@@ -1,137 +1,118 @@
-"""Minimal Flask app that serves a single-page portfolio site."""
+"""Romantic Flask invite for a ballet date night."""
 from datetime import datetime
 
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-PROFILE = {
-    "name": "Ilya Kozakov",
-    "tagline": "Python / .NET engineer building reliable trading + data tools",
-    "location": "Warsaw, Poland · Remote-friendly",
-    "summary": (
-        "Motivated to learn, collaborative, and team-oriented. I combine .NET, "
-        "Python, and modern frontend habits to ship low-latency systems and clean "
-        "internal tools. Comfortable with MSSQL, Redis, RabbitMQ, SignalR, and "
-        "browser-side JavaScript/jQuery. Currently diving deeper into Python "
-        "product work while exploring Laravel, Flutter (Dart), and Java ecosystems "
-        "to keep my frontend intuition sharp."
+INVITE = {
+    "eyebrow": "Вечер в театре",
+    "dear": "Анастасия",
+    "host": "Илья",
+    "title": "приглашаю на «Щелкунчика»",
+    "event_title": "Пётр Чайковский · «Щелкунчик»",
+    "intro": (
+        "Я заказал два билета в Белорусский государственный музыкальный театр — хочу провести "
+        "этот вечер только с тобой."
     ),
-    "contact_email": "ikozakov2018@gmail.com",
-    "contact_social": "https://www.linkedin.com/in/ilya-kozakov-467648261/",
-    "contact_telegram": "https://t.me/Sp0cee",
+    "date": "18 декабря",
+    "weekday": "Четверг",
+    "time": "19:00",
+    "city": "Минск",
+    "venue": "Белорусский государственный музыкальный театр",
+    "tickets": "Наш ряд — партер ближе к центру, чтобы видеть каждое движение сцены и шептать тихо.",
+    "meeting_plan": (
+        "В 18:00 будем готовы выйти из дома: я жду тебя у двери с пальто и спокойной музыкой в машине."
+    ),
+    "dress_code": "Тёмное платье или костюм, золотистые аксессуары.",
+    "after_plan": (
+        "после занавеса — выйдем из театра и продолжим ночь в баре, ресторане или кафе."
+    ),
+    "cta_text": "Скажи «да»",
+    "cta_link": "https://t.me/Sp0cee",
+    "secondary_cta_text": "Посмотреть план вечера",
+    "story": (
+        "Пусть «Щелкунчик» в Минске станет чем-то новым для нас: строгая архитектура театра, мягкий свет "
+        "и только мы вдвоем."
+    ),
+    "night_ready": "И весь вечер будет только наш.",
 }
 
-PROJECTS = [
-    {
-        "title": "Darwin Trading Surfaces",
-        "stack": ".NET · SignalR · RabbitMQ",
-        "summary": "Low-latency interface stitching Tradeweb, Bloomberg, and internal feeds for Santander traders.",
-        "impact": "Improved situational awareness on the desk and kept execution teams confident in positions.",
-    },
-    {
-        "title": "Trader Activity Monitor",
-        "stack": ".NET · MSSQL · Redis · JavaScript",
-        "summary": "Unified feed that aggregates trader actions, alerts, and health checks for ops teams.",
-        "impact": "Cut triage time for anomalies by ~30% thanks to clearer dashboards and alerting.",
-    },
-    {
-        "title": "IQVIA Client Delivery",
-        "stack": ".NET Core · ASP.NET MVC · AWS S3",
-        "summary": "Reporting suite helping pharma companies act on real sales data and flexible analytics.",
-        "impact": "Enabled consultants to ship tailored reports faster after modernizing legacy modules.",
-    },
+DESCRIPTION = [
+    "Это наш декабрь без спешки: строгий зал, глубокий зелёный бархат, мягкий каменный свет и возможность просто держаться за руки.",
+    "Постановка Игоря Колба сочетает точную графику движений и камерный свет — сцена становится зимним сном.",
+    "Хочу подарить тебе этот вечер, чтобы мы вдохновились и загадали всё самое смелое перед новым годом.",
 ]
 
-SKILLS = [
-    "Python & Flask",
-    ".NET / C#",
-    "SignalR + RabbitMQ",
-    "Redis & MSSQL",
-    "JavaScript & jQuery",
-    "Clean markup & UI polish",
-]
-
-EXPERIENCE = [
+CREATIVE_TEAM = [
     {
-        "company": "Santander Corporate & Investment Banking",
-        "role": "Software Engineer · Team Darwin",
-        "dates": "May 2025 – Present",
-        "location": "Warsaw, Poland",
-        "highlights": [
-            "Building high-performance trading tools ingesting Tradeweb and Bloomberg streams.",
-            "Strengthened reliability for low-latency event processing with .NET, SignalR, Redis, RabbitMQ.",
-            "Collaborating with traders and ops to turn live feedback into production-ready features.",
-        ],
+        "role": "Балетмейстер-постановщик, хореограф, автор либретто",
+        "name": "Заслуженный артист РФ Игорь Колб",
     },
     {
-        "company": "Talan (External for Santander)",
-        "role": "Junior Backend Developer",
-        "dates": "Oct 2023 – May 2025",
-        "location": "Warsaw, Poland · Remote",
-        "highlights": [
-            "Delivered backend services for trader activity dashboards with strict latency SLAs.",
-            "Extended monitoring and alerting so ops could trust real-time positions.",
-            "Shipped features end-to-end: .NET services, API wiring, plus lightweight frontend updates.",
-        ],
+        "role": "Дирижер-постановщик",
+        "name": "Народный артист РБ Артем Макаров",
     },
     {
-        "company": "Itransition Group",
-        "role": ".NET Developer",
-        "dates": "Oct 2022 – Apr 2023",
-        "location": "Remote",
-        "highlights": [
-            "Contributed to IQVIA Client Delivery used by pharma teams for sales intelligence.",
-            "Over seven months, migrated modules to new frameworks and modernized reporting flows (ASP.NET MVC, EF Core).",
-            "Demoed features, fixed bugs quickly, and kept deployments steady via Bamboo + Git.",
-        ],
+        "role": "Художник-постановщик",
+        "name": "Ольга Мельник",
+    },
+    {
+        "role": "Художник по свету",
+        "name": "Заслуженный работник культуры РФ Ирина Вторникова",
+    },
+    {
+        "role": "Художник по компьютерной графике и видеоряду",
+        "name": "Виктория Злотникова",
+    },
+    {
+        "role": "Дирижеры",
+        "name": "Заслуженный деятель искусств РБ Николай Колядко, Виталий Грищенко",
     },
 ]
 
-EDUCATION = [
+EVENING_PLAN = [
     {
-        "school": "Vistula University",
-        "degree": "Engineer’s Degree, Computer Science",
-        "dates": "Oct 2021 – Dec 2024",
-        "notes": (
-            "Focused on software engineering fundamentals, distributed systems, and practical web "
-            "development. Led study projects that paired .NET services with Python prototypes."
-        ),
-    }
+        "time": "18:00",
+        "title": "Выезжаем из дома",
+        "detail": "В 18:00 мы готовы к выезду: помогу надеть пальто, включу любимый плейлист и повезу в театр.",
+    },
+    {
+        "time": "18:45",
+        "title": "Фойе и оркестр",
+        "detail": "Успеем выпить по чашке эспрессо, рассматривать афиши и слушать первые ноты оркестровой ямы.",
+    },
+    {
+        "time": "19:00",
+        "title": "Щелкунчик оживает",
+        "detail": "Музыка Чайковского, темный блеск сцены и мы рядом.",
+    },
+    {
+        "time": "21:30",
+        "title": "После балета",
+        "detail": "Выходим в ночной Минск, идём по Ленина к бару с каменными стенами и решаем, куда продолжить нашу ночь.",
+    },
 ]
 
-LANGUAGES = [
-    "Russian · Native",
-    "English · Professional working",
-    "Polish · Conversational",
-]
-
-LEARNING = [
-    "Advanced Python for data-heavy products",
-    "Flutter (Dart) for expressive frontends",
-    "PHP (Laravel) for rapid internal tools",
-    "Java services for trading connectivity",
-]
-
-
-@app.context_processor
-def inject_globals():
-    """Provide common template variables."""
-    return {
-        "profile": PROFILE,
-        "skills": SKILLS,
-        "experience": EXPERIENCE,
-        "education": EDUCATION,
-        "languages": LANGUAGES,
-        "learning": LEARNING,
-        "current_year": datetime.now().year,
-    }
+LOVE_NOTE = (
+    "Хочу ловить твою улыбку, пока оркестр играет снежный вальс. "
+    "Этот вечер просто про нас двоих — милых и крвсивых. "
+    "После занавеса останемся рядом, продолжим ночь без спешки и наслаждаться моментом."
+)
 
 
 @app.route("/")
 def home():
-    """Render the single-page portfolio."""
-    return render_template("index.html", projects=PROJECTS)
+    """Render the single-page invitation."""
+    return render_template(
+        "index.html",
+        invite=INVITE,
+        description=DESCRIPTION,
+        creative_team=CREATIVE_TEAM,
+        evening_plan=EVENING_PLAN,
+        love_note=LOVE_NOTE,
+        current_year=datetime.now().year,
+    )
 
 
 if __name__ == "__main__":

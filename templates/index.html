@@ -1,166 +1,145 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ profile.name }} · Portfolio</title>
+    <title>{{ invite.event_title }} · Приглашение</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Manrope:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
   </head>
   <body>
+    <div class="halo halo-one"></div>
+    <div class="halo halo-two"></div>
+
     <header class="hero">
-      <p class="eyebrow">Portfolio</p>
-      <h1>{{ profile.name }}</h1>
-      <p class="tagline">{{ profile.tagline }}</p>
-      <p class="location">{{ profile.location }}</p>
-      <div class="cta-row">
-        {% if profile.contact_telegram %}
-        <a class="btn primary" href="{{ profile.contact_telegram }}" target="_blank" rel="noreferrer">
-          Say hello
-        </a>
-        {% else %}
-        <a class="btn primary" href="mailto:{{ profile.contact_email }}">Say hello</a>
-        {% endif %}
-        <a class="btn ghost" href="{{ profile.contact_social }}" target="_blank" rel="noreferrer">
-          Connect ↗
-        </a>
+      <p class="eyebrow">{{ invite.eyebrow }}</p>
+      <h1>{{ invite.dear }}, {{ invite.title }}</h1>
+      <p class="event-title">{{ invite.event_title }}</p>
+      <p class="intro">{{ invite.intro }}</p>
+      <p class="story">{{ invite.story }}</p>
+
+      <div class="hero-meta">
+        <div class="meta-card">
+          <span class="label">Когда</span>
+          <p class="value">{{ invite.weekday }}, {{ invite.date }}</p>
+          <p class="muted">{{ invite.time }}</p>
+        </div>
+        <div class="meta-card">
+          <span class="label">Где</span>
+          <p class="value">{{ invite.venue }}</p>
+          <p class="muted">{{ invite.city }}</p>
+        </div>
+        <div class="meta-card">
+          <span class="label">После спектакля</span>
+          <p class="value">Продолжим ночь</p>
+          <p class="muted">{{ invite.after_plan }}</p>
+        </div>
       </div>
+
+      <div class="cta-row">
+        <a class="btn primary" href="{{ invite.cta_link }}" target="_blank" rel="noreferrer">
+          {{ invite.cta_text }}
+        </a>
+        <a class="btn ghost" href="#plan">{{ invite.secondary_cta_text }}</a>
+      </div>
+      <p class="ready-line">{{ invite.night_ready }}</p>
     </header>
 
     <main>
-      <section id="about" class="card about">
+      <section class="card details">
         <div class="section-heading">
-          <h2>About</h2>
-          <p>Reliable teammate building pragmatic trading & data software</p>
+          <h2>Что уже готово</h2>
+          <p>Каждая мелочь продумана, тебе остаётся сказать «да»</p>
         </div>
-        <div class="about-grid">
-          <p>{{ profile.summary }}</p>
-          <div class="about-callouts">
-            <h3>What teammates notice</h3>
+        <div class="detail-grid">
+          <article>
+            <span class="label">Билеты</span>
+            <h3>Наши места</h3>
+            <p>{{ invite.tickets }}</p>
+          </article>
+          <article>
+            <span class="label">Встреча</span>
+            <h3>С первой минуты</h3>
+            <p>{{ invite.meeting_plan }}</p>
+          </article>
+          <article>
+            <span class="label">Образ</span>
+            <h3>Дресс-код</h3>
+            <p>{{ invite.dress_code }}</p>
+          </article>
+          <article>
+            <span class="label">После спектакля</span>
+            <h3>Продолжить ночь</h3>
+            <p>{{ invite.after_plan }}</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card story" id="story">
+        <div class="section-heading">
+          <h2>Почему именно «Щелкунчик»</h2>
+          <p>Музыка Чайковского + камерная атмосфера Минска</p>
+        </div>
+        <div class="story-grid">
+          <div>
+            {% for paragraph in description %}
+            <p>{{ paragraph }}</p>
+            {% endfor %}
+          </div>
+          <div class="description-block">
+            <h3>О постановке</h3>
             <ul>
-              <li>Motivated to learn quickly and share context back with the team.</li>
-              <li>Hands-on with MSSQL, Redis, RabbitMQ, and SignalR for real-time data.</li>
-              <li>Frontend fluency when it matters: clean markup, JavaScript, and jQuery.</li>
-              <li>Current motivation: pairing trading APIs with Flutter (Dart) visuals.</li>
+              {% for member in creative_team %}
+              <li>
+                <span class="role">{{ member.role }}:</span>
+                <span class="name">{{ member.name }}</span>
+              </li>
+              {% endfor %}
             </ul>
           </div>
         </div>
       </section>
 
-      <section id="experience" class="card">
+      <section class="card" id="plan">
         <div class="section-heading">
-          <h2>Experience</h2>
-          <p>Recent roles in capital markets and data-driven platforms</p>
+          <h2>План вечера</h2>
+          <p>Чтобы всё было легко и без суеты</p>
         </div>
         <div class="timeline">
-          {% for role in experience %}
+          {% for stop in evening_plan %}
           <article>
             <div class="timeline-dot"></div>
             <div class="timeline-content">
               <div class="meta">
-                <span class="role">{{ role.role }}</span>
-                <span class="company">{{ role.company }}</span>
-                <span class="dates">{{ role.dates }}</span>
-                <span class="location">{{ role.location }}</span>
+                <span class="time">{{ stop.time }}</span>
               </div>
-              <ul>
-                {% for highlight in role.highlights %}
-                <li>{{ highlight }}</li>
-                {% endfor %}
-              </ul>
+              <h3>{{ stop.title }}</h3>
+              <p>{{ stop.detail }}</p>
             </div>
           </article>
           {% endfor %}
         </div>
       </section>
 
-      <section id="projects" class="card">
+      <section class="card love-note" id="love">
         <div class="section-heading">
-          <h2>Selected work</h2>
-          <p>Product slices that mix .NET, Python, and thoughtful frontend polish</p>
+          <h2>Только для тебя</h2>
+          <p>Маленькое письмо перед занавесом</p>
         </div>
-        <div class="project-grid">
-          {% for project in projects %}
-          <article>
-            <p class="eyebrow">{{ project.stack }}</p>
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.summary }}</p>
-            <p class="impact">{{ project.impact }}</p>
-          </article>
-          {% endfor %}
-        </div>
-      </section>
-
-      <section id="skills" class="card">
-        <div class="section-heading">
-          <h2>Focus areas</h2>
-          <p>Systems thinking plus pragmatic delivery</p>
-        </div>
-        <ul class="pill-list">
-          {% for skill in skills %}
-          <li>{{ skill }}</li>
-          {% endfor %}
-        </ul>
-      </section>
-
-      <section id="education" class="card">
-        <div class="section-heading">
-          <h2>Education</h2>
-          <p>Grounded in computer science fundamentals</p>
-        </div>
-        {% for school in education %}
-        <article class="education-card">
-          <h3>{{ school.degree }}</h3>
-          <p class="school">{{ school.school }}</p>
-          <p class="dates">{{ school.dates }}</p>
-          <p>{{ school.notes }}</p>
-        </article>
-        {% endfor %}
-      </section>
-
-      <section id="languages" class="card dual">
-        <div>
-          <div class="section-heading">
-            <h2>Languages</h2>
-            <p>Collaborating across distributed teams</p>
-          </div>
-          <ul class="pill-list">
-            {% for language in languages %}
-            <li>{{ language }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="learning">
-          <div class="section-heading">
-            <h2>Currently exploring</h2>
-            <p>Keeping skills sharp and versatile</p>
-          </div>
-          <p class="note">I’m focused on Flutter (Dart) frontends that bring trading context to life.</p>
-          <ul class="pill-list soft">
-            {% for topic in learning %}
-            <li>{{ topic }}</li>
-            {% endfor %}
-          </ul>
-        </div>
+        <p class="letter">{{ love_note }}</p>
+        <p class="signature">С любовью, {{ invite.host }}</p>
       </section>
     </main>
 
     <footer>
-      <p>Let’s build thoughtful tools together.</p>
-      <a href="mailto:{{ profile.contact_email }}">{{ profile.contact_email }}</a>
-      <p>
-        <a href="{{ profile.contact_social }}" target="_blank" rel="noreferrer">LinkedIn</a>
-        &nbsp;•&nbsp;
-        {% if profile.contact_telegram %}
-        <a href="{{ profile.contact_telegram }}" target="_blank" rel="noreferrer">@Sp0cee on Telegram</a>
-        {% endif %}
-      </p>
-      <p>&copy; {{ current_year }} {{ profile.name }}</p>
+      <p>Готов провести этот вечер с тобой.</p>
+      <a href="{{ invite.cta_link }}" target="_blank" rel="noreferrer">{{ invite.cta_text }}</a>
+      <p>&copy; {{ current_year }} — только мы.</p>
     </footer>
   </body>
 </html>
